@@ -1,50 +1,45 @@
-
+import { SiLeetcode,SiCodechef } from "react-icons/si";
 import {
   FaDiagramProject,
   FaEnvelope,
-  FaFacebookF,
   FaGithub,
   FaHouse,
   FaLinkedinIn,
   FaRenren,
   FaUser,
-  FaYoutube,
 } from "react-icons/fa6";
 import {
-  ChatApp,
-  CodePenClone,
-  FreshJuiceUI,
-  ImageSharing,
-  OpenAI,
-  PixabayClone,
-  PortfolioFirebase,
-  RestaurantClone,
-  SocialMedia,
+ InterviewBot,
+  CodeCraft,
+  Aggroassist,
+  SpamMail,
+  Vehicle,
+  AccentRecognition
 } from "../assets";
 
 export const Socials = [
   {
-    id: `facebook-${Date.now()}`,
-    Icon: FaFacebookF,
-    uril: "",
+    id: `leetcode-${Date.now()}`,
+    Icon: SiLeetcode ,
+    uri: "https://leetcode.com/u/hs_ss/",
     color: "#1877F2",
   },
   {
     id: `linkedin-${Date.now()}`,
     Icon: FaLinkedinIn,
-    uril: "",
+    uri: "www.linkedin.com/in/himanshu-singh23226",
     color: "#0072b1",
   },
   {
     id: `github-${Date.now()}`,
     Icon: FaGithub,
-    uril: "",
+    uri: "https://github.com/Himanshu0518",
     color: "#fff",
   },
   {
-    id: `youtube-${Date.now()}`,
-    Icon: FaYoutube,
-    uril: "",
+    id: `codechef-${Date.now()}`,
+    Icon: SiCodechef,
+    uri: "https://www.codechef.com/users/hs_ss",
     color: "#ff0000",
   },
 ];
@@ -68,6 +63,7 @@ export const Menus = [
     uri: "#skills",
     name: "Skills",
   },
+
   {
     id: `projects-${Date.now()}`,
     Icon: FaDiagramProject,
@@ -84,57 +80,59 @@ export const Menus = [
 
 export const ProjectsData = [
   {
-    id: `food-${Date.now()}`,
-    name: "Single Food Restaurant",
-    imgSrc: RestaurantClone,
-    gitURL: "https://github.com/Vetrivel-VP",
+    id: `CodeCraft-${Date.now()}`,
+    name: "CodeCraft",
+    imgSrc: CodeCraft,
+    gitURL: "https://github.com/Himanshu0518/CodeCraft",
+    demo: "https://codecraft-2f10d.web.app/home",
+    description:
+      "Real-time code editor with all social features. Built using Firebase, React,Shadcn ui and framer-motion."
   },
   {
-    id: `codepen-${Date.now()}`,
-    name: "CodePen Clone",
-    imgSrc: CodePenClone,
-    gitURL: "https://github.com/Vetrivel-VP",
+    id: `InterviewBot-${Date.now()}`,
+    name: "InterviewBot",
+    imgSrc: InterviewBot,
+    gitURL: "https://github.com/Himanshu0518/Interview-Bot",
+    demo: "https://interview-bot-wine.vercel.app/",
+    description:
+      "AI mock interview and test based on your resume. An assistant built with LangChain, FastAPI, and React."
   },
   {
-    id: `openai-${Date.now()}`,
-    name: "OpenAI",
-    imgSrc: OpenAI,
-    gitURL: "https://github.com/Vetrivel-VP",
+    id: `Accent-Recognition-${Date.now()}`,
+    name: "Accent-Recognition",
+    imgSrc: AccentRecognition,
+    gitURL: "https://dagshub.com/Himanshu0518/Accent-Recognition",
+    demo: "",
+    description:
+      "ML model for accent recognition using Librosa and scikit-learn. End to End MLOPS pipeline."
   },
   {
-    id: `chatapp-${Date.now()}`,
-    name: "Chat App Build",
-    imgSrc: ChatApp,
-    gitURL: "https://github.com/Vetrivel-VP",
+    id: `Aggroassist-${Date.now()}`,
+    name: "AgroAssist",
+    imgSrc: Aggroassist,
+    gitURL: "https://github.com/Himanshu0518/Vehicle-project.git",
+    demo: "https://youtu.be/CQRa5K5qehQ",
+    description:
+      "Build with ML + CNN + TSA. Discovered a different way to recommend crops."
   },
   {
-    id: `imageSharing-${Date.now()}`,
-    name: "Image Sharing App",
-    imgSrc: ImageSharing,
-    gitURL: "https://github.com/Vetrivel-VP",
+    id: `VehicleInsurancePrediction-${Date.now()}`,
+    name: "Vehicle Insurance Prediction",
+    imgSrc: Vehicle,
+    gitURL: "https://github.com/Himanshu0518/Vehicle-project",
+    demo: "https://youtu.be/5e-8gAVst2k",
+    description:
+      "End-to-end pipeline for vehicle insurance prediction with MLOps and CI/CD."
   },
   {
-    id: `pixabayclone-${Date.now()}`,
-    name: "Pixabay Clone 2.0",
-    imgSrc: PixabayClone,
-    gitURL: "https://github.com/Vetrivel-VP",
-  },
-  {
-    id: `freshjuiceui-${Date.now()}`,
-    name: "Fresh Juice UI Build",
-    imgSrc: FreshJuiceUI,
-    gitURL: "https://github.com/Vetrivel-VP",
-  },
-  {
-    id: `socialmedia-${Date.now()}`,
-    name: "Social Media App",
-    imgSrc: SocialMedia,
-    gitURL: "https://github.com/Vetrivel-VP",
-  },
-  {
-    id: `portfoliofirebase-${Date.now()}`,
-    name: "Portfolio UI Fireabse",
-    imgSrc: PortfolioFirebase,
-    gitURL: "https://github.com/Vetrivel-VP",
-  },
+    id: `SpamClassifier-${Date.now()}`,
+    name: "Spam Mail Classifier",
+    imgSrc: SpamMail,
+    gitURL:
+      "https://github.com/Himanshu0518/Spam-detection-End-to-End-pipeline-MLOPS.git",
+    demo: "https://spam-detection-qdm1.onrender.com",
+    description:
+      "Spam detection using TF-IDF + ML with Flask using DVC pipeline."
+  }
 ];
+
