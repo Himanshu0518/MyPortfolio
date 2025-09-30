@@ -110,7 +110,7 @@ export const ProjectsData = [
     id: `Aggroassist-${Date.now()}`,
     name: "AgroAssist",
     imgSrc: Aggroassist,
-    gitURL: "https://github.com/Himanshu0518/Vehicle-project.git",
+    gitURL: "https://github.com/Himanshu0518/Agroassist.git",
     demo: "https://youtu.be/CQRa5K5qehQ",
     description:
       "Build with ML + CNN + TSA. Discovered a different way to recommend crops."

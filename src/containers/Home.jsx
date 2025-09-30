@@ -270,47 +270,7 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.65 }}
           >
-            <motion.a
-              href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/edit?usp=drive_link"
-              className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white rounded-full overflow-hidden"
-              style={{
-                background: "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
-              }}
-              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              onMouseEnter={() => setCursorVariant("text")}
-              onMouseLeave={() => setCursorVariant("default")}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Hire Me
-                <motion.svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  animate={prefersReducedMotion ? undefined : { x: [0, 6, 0] }}
-                  transition={{ duration: 1.4, repeat: Infinity }}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </motion.svg>
-              </span>
-              {!prefersReducedMotion && (
-                <motion.div
-                  className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity"
-                  style={{
-                    background:
-                      "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
-                  }}
-                  animate={{ scale: [1, 1.08, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              )}
-            </motion.a>
+ 
 
             <div className="flex items-center gap-4">
               <AnimatePresence>
