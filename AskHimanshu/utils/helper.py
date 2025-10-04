@@ -11,9 +11,17 @@ work_experience = {
     ]
 }
 
-Achievements = {
- "Solved 500+ problems on Leetcode and in top 13%",
- "Participated in 50+ coding competitions",
- "Got 2nd Rank in Coderation"
- "max rating of 1613 on codechef"
-}
+achievements = [
+    {
+        "title": "Solved 500+ problems on LeetCode (Top 13%)",
+        "link": "https://leetcode.com/u/hs_ss/"
+    },
+    {
+        "title": "Achieved maximum rating of 1613 on CodeChef",
+        "link": "https://www.codechef.com/users/hs_ss"
+    },
+    {
+        "title": "Secured 2nd Rank in Coderation",
+        "link": "https://github.com/Himanshu0518/Assets/blob/main/certificate.jpg?raw=true"
+    }
+]

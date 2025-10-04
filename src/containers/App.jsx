@@ -6,7 +6,7 @@ import About from "./About";
 import Skills from "./Skills";
 import Projects from "./Projects";
 import Contact from "./Contact";
-
+import ChatBot from "../components/AskHimanshu";
 
 function App() {
    const prefersReducedMotion = useReducedMotion();
@@ -60,6 +60,22 @@ function App() {
      {/* Contact */}
 
       <Contact />
+
+      {/* AskHimanshu  ChatBot */}
+
+      <AnimatePresence>
+  <motion.div
+    key="chatbot" // key is required for AnimatePresence to track changes
+    initial={{ opacity: 0, y: 20 }}   // starting state
+    animate={{ opacity: 1, y: 0 }}    // animate to
+    exit={{ opacity: 0, y: 20 }}      // exit animation
+    transition={{ duration: 0.3 }}    // animation speed
+  >
+    <ChatBot />
+  </motion.div>
+</AnimatePresence>
+
+
     </div>
   );
 }

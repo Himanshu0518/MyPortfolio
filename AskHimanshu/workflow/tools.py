@@ -3,8 +3,8 @@ import requests
 import base64
 from dotenv import load_dotenv
 import os 
-from utils.helper import work_experience, Achievements
-
+from utils.helper import work_experience, achievements
+from langchain_tavily import TavilySearch
 load_dotenv()
 
 USERNAME = os.getenv("GITHUB_USERNAME")
@@ -71,13 +71,14 @@ def fetch_work_experience() -> dict:
     """
     return {"work_experience": work_experience}
 
-@tool("acheivements")
+@tool("fetch_acheivements")
 def fetch_acheivements() -> dict:
     """
    Fetch acheivements 
     Call this when the user asks about acheivements.
     """
-    return {"acheivements": Achievements}
+    return {"acheivements": achievements}
 
+search_tool =  TavilySearch()
 
-tools = [fetch_repos, fetch_skills_and_education, fetch_work_experience]
+tools = [fetch_repos, fetch_skills_and_education, fetch_work_experience,fetch_acheivements,search_tool ]

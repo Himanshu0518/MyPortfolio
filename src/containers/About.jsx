@@ -30,7 +30,6 @@ function About() {
     });
   };
 
-  
   const particles = useMemo(
     () =>
       Array.from({ length: 8 }).map(() => ({
@@ -72,7 +71,6 @@ function About() {
       className="w-full min-h-screen flex justify-center items-center px-6 lg:px-20 py-20 relative overflow-hidden mt-12 pt-4"
       onMouseMove={handleMouseMove}
     >
-    
       {!prefersReducedMotion && (
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -86,7 +84,6 @@ function About() {
         </div>
       )}
 
-    
       {!prefersReducedMotion &&
         particles.map((p, i) => (
           <motion.div
@@ -107,7 +104,6 @@ function About() {
         initial="hidden"
         animate={controls}
       >
-       
         <motion.div
           className="w-full flex justify-center items-center relative"
           variants={itemVariants}
@@ -139,14 +135,10 @@ function About() {
             {/* Simplified Image Container */}
             <motion.div
               className="relative w-72 h-72 lg:w-80 lg:h-80 rounded-3xl p-1 bg-gradient-to-br from-blue-500 to-blue-600 shadow-2xl"
-              whileHover={
-                prefersReducedMotion ? undefined : { scale: 1.05 }
-              }
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
               transition={{ duration: 0.3 }}
             >
-              <div
-                className="w-full h-full rounded-3xl flex items-center justify-center relative overflow-hidden bg-slate-800"
-              >
+              <div className="w-full h-full rounded-3xl flex items-center justify-center relative overflow-hidden bg-slate-800">
                 {/* Mouse interaction effect */}
                 <motion.div
                   className="absolute inset-0 opacity-20"
@@ -225,11 +217,7 @@ function About() {
               <span className="text-blue-400 font-semibold">
                 Machine Learning
               </span>
-              ,{" "}
-              <span className="text-blue-300 font-semibold">
-                MLOps
-              </span>
-              , and{" "}
+              , <span className="text-blue-300 font-semibold">MLOps</span>, and{" "}
               <span className="text-slate-200 font-semibold">
                 Full Stack Development
               </span>
@@ -256,46 +244,45 @@ function About() {
                 Download CV
               </motion.button>
             </a>
-                       <motion.a
-                          href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/edit?usp=drive_link"
-                          className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white rounded-full overflow-hidden"
-                          style={{
-                            background: "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
-                          }}
-                          whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-                          whileTap={{ scale: 0.98 }}
-                         
-                        >
-                          <span className="relative z-10 flex items-center gap-2">
-                            Resume
-                            <motion.svg
-                              className="w-5 h-5"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              animate={prefersReducedMotion ? undefined : { x: [0, 6, 0] }}
-                              transition={{ duration: 1.4, repeat: Infinity }}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                              />
-                            </motion.svg>
-                          </span>
-                          {!prefersReducedMotion && (
-                            <motion.div
-                              className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity"
-                              style={{
-                                background:
-                                  "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
-                              }}
-                              animate={{ scale: [1, 1.08, 1] }}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            />
-                          )}
-                        </motion.a>
+            <motion.a
+              href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/edit?usp=drive_link"
+              className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white rounded-full overflow-hidden"
+              style={{
+                background: "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
+              }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                Resume
+                <motion.svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  animate={prefersReducedMotion ? undefined : { x: [0, 6, 0] }}
+                  transition={{ duration: 1.4, repeat: Infinity }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </motion.svg>
+              </span>
+              {!prefersReducedMotion && (
+                <motion.div
+                  className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity"
+                  style={{
+                    background:
+                      "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
+                  }}
+                  animate={{ scale: [1, 1.08, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              )}
+            </motion.a>
           </motion.div>
         </motion.div>
       </motion.div>
