@@ -21,7 +21,6 @@ function ChatBot() {
   const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
-    // Generate session ID if not exists
     if (!sessionId) {
       const newSessionId = generateUUID();
       setSessionId(newSessionId);
@@ -57,6 +56,7 @@ function ChatBot() {
     setIsTyping(true);
 
     const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU;
+
     try {
       const response = await fetch(`${BASE_URL}/api/AskHimanshu`, {
         method: "POST",
@@ -73,27 +73,85 @@ function ChatBot() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.text();
+      // Once streaming starts, hide typing indicator and create bot message
+      setIsTyping(false);
 
+      const botMessageId = Date.now() + 1;
       const botMessage = {
-        id: Date.now() + 1,
-        text: data || "Sorry, I couldn't process that request.",
+        id: botMessageId,
+        text: "",
         sender: "bot",
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, botMessage]);
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split("\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+
+            try {
+              const parsed = JSON.parse(data);
+
+              if (parsed.done) {
+                break;
+              }
+
+              if (parsed.content) {
+                accumulatedText = parsed.content;
+
+                // Update the bot message with accumulated text
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === botMessageId
+                      ? { ...msg, text: accumulatedText }
+                      : msg
+                  )
+                );
+              }
+            } catch (e) {
+              // Ignore JSON parse errors
+            }
+          }
+        }
+      }
+
+      // If no text was accumulated, show error
+      if (!accumulatedText) {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMessageId
+              ? { ...msg, text: "Sorry, I couldn't process that request." }
+              : msg
+          )
+        );
+      }
     } catch (error) {
       console.error("Error fetching bot response:", error);
-      const errorMessage = {
-        id: Date.now() + 1,
-        text: "Sorry, I'm having trouble connecting right now. Please try again later.",
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
       setIsTyping(false);
+
+      const botMessageId = Date.now() + 1;
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: botMessageId,
+          text: "Sorry, I'm having trouble connecting right now. Please try again later.",
+          sender: "bot",
+          timestamp: new Date(),
+        },
+      ]);
     }
   };
 
@@ -106,11 +164,9 @@ function ChatBot() {
 
   // Format markdown-style text to JSX
   const formatMessage = (text) => {
-    // Split by lines
     const lines = text.split("\n");
 
     return lines.map((line, i) => {
-      // Bold text: **text** or __text__
       let formattedLine = line.replace(
         /\*\*(.*?)\*\*/g,
         '<strong class="font-semibold text-green-400">$1</strong>'
@@ -120,7 +176,6 @@ function ChatBot() {
         '<strong class="font-semibold text-green-400">$1</strong>'
       );
 
-      // Check if line starts with * (bullet point)
       if (line.trim().startsWith("*") && !line.trim().startsWith("**")) {
         const bulletText = line.trim().substring(1).trim();
         const formattedBullet = bulletText.replace(
@@ -135,14 +190,12 @@ function ChatBot() {
         );
       }
 
-      // Regular line
       if (line.trim()) {
         return (
           <div key={i} dangerouslySetInnerHTML={{ __html: formattedLine }} />
         );
       }
 
-      // Empty line
       return <div key={i} className="h-2" />;
     });
   };
@@ -175,7 +228,6 @@ function ChatBot() {
           <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <MessageCircle className="w-4 h-4 md:w-7 md:h-7 relative z-10" />
 
-          {/* Pulse effect */}
           <motion.div
             className="absolute inset-0 rounded-full border-2 border-white"
             initial={{ scale: 1, opacity: 0.5 }}
@@ -193,7 +245,7 @@ function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed md:bottom-24 bottom-30 w-80 h-[500px]  left-6 md:w-96 md:h-[600px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
+            className="fixed md:bottom-24 bottom-30 w-80 h-[500px] left-6 md:w-96 md:h-[600px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 flex items-center justify-between">
@@ -217,10 +269,8 @@ function ChatBot() {
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-950">
               {messages.map((message) => (
-                <motion.div
+                <div
                   key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
                   className={`flex ${
                     message.sender === "user" ? "justify-end" : "justify-start"
                   }`}
@@ -237,26 +287,30 @@ function ChatBot() {
                         ? formatMessage(message.text)
                         : message.text}
                     </div>
-                    <p
-                      className={`text-xs mt-1.5 ${
-                        message.sender === "user"
-                          ? "text-white/70"
-                          : "text-gray-500"
-                      }`}
-                    >
-                      {message.timestamp.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
+                    {message.text && (
+                      <p
+                        className={`text-xs mt-1.5 ${
+                          message.sender === "user"
+                            ? "text-white/70"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {message.timestamp.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    )}
                   </div>
-                </motion.div>
+                </div>
               ))}
 
+              {/* ✅ Typing animation stays */}
               {isTyping && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
                   className="flex justify-start"
                 >
                   <div className="bg-slate-800 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
