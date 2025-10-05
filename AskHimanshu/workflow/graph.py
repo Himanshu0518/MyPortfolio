@@ -34,7 +34,6 @@ def tool_router(state: ChatState):
     return "end"
 
 
-
 # Chat node
 def chat_node(state: ChatState):
     response = llm_with_tools.invoke(state["messages"])

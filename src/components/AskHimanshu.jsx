@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send } from "lucide-react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 function generateUUID() {
   return uuidv4();
@@ -55,7 +55,7 @@ function ChatBot() {
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
     setIsTyping(true);
-    
+
     const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU;
     try {
       const response = await fetch(`${BASE_URL}/api/AskHimanshu`, {
@@ -107,17 +107,26 @@ function ChatBot() {
   // Format markdown-style text to JSX
   const formatMessage = (text) => {
     // Split by lines
-    const lines = text.split('\n');
-    
+    const lines = text.split("\n");
+
     return lines.map((line, i) => {
       // Bold text: **text** or __text__
-      let formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-green-400">$1</strong>');
-      formattedLine = formattedLine.replace(/__(.*?)__/g, '<strong class="font-semibold text-green-400">$1</strong>');
-      
+      let formattedLine = line.replace(
+        /\*\*(.*?)\*\*/g,
+        '<strong class="font-semibold text-green-400">$1</strong>'
+      );
+      formattedLine = formattedLine.replace(
+        /__(.*?)__/g,
+        '<strong class="font-semibold text-green-400">$1</strong>'
+      );
+
       // Check if line starts with * (bullet point)
-      if (line.trim().startsWith('*') && !line.trim().startsWith('**')) {
+      if (line.trim().startsWith("*") && !line.trim().startsWith("**")) {
         const bulletText = line.trim().substring(1).trim();
-        const formattedBullet = bulletText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-green-400">$1</strong>');
+        const formattedBullet = bulletText.replace(
+          /\*\*(.*?)\*\*/g,
+          '<strong class="font-semibold text-green-400">$1</strong>'
+        );
         return (
           <div key={i} className="flex gap-2 ml-2 items-start">
             <span className="text-green-400 mt-0.5">•</span>
@@ -125,14 +134,14 @@ function ChatBot() {
           </div>
         );
       }
-      
+
       // Regular line
       if (line.trim()) {
         return (
           <div key={i} dangerouslySetInnerHTML={{ __html: formattedLine }} />
         );
       }
-      
+
       // Empty line
       return <div key={i} className="h-2" />;
     });
@@ -147,13 +156,13 @@ function ChatBot() {
         dragElastic={0}
         onDragStart={() => setIsDragging(true)}
         onDragEnd={() => setTimeout(() => setIsDragging(false), 100)}
-        className="fixed bottom-6 left-6 z-50 cursor-move"
+        className="fixed bottom-40 left-6 z-50 cursor-move"
         whileHover={{ scale: isDragging ? 1 : 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <motion.button
           onClick={() => !isDragging && setIsOpen(true)}
-          className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
+          className="relative md:w-16 md:h-16 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
           animate={{
             boxShadow: [
               "0 4px 20px rgba(34,197,94,0.3)",
@@ -164,7 +173,7 @@ function ChatBot() {
           transition={{ duration: 3, repeat: Infinity }}
         >
           <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <MessageCircle className="w-7 h-7 relative z-10" />
+          <MessageCircle className="w-4 h-4 md:w-7 md:h-7 relative z-10" />
 
           {/* Pulse effect */}
           <motion.div
@@ -184,7 +193,7 @@ function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-24 left-6 w-96 h-[600px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
+            className="fixed md:bottom-24 bottom-30 w-80 h-[500px]  left-6 md:w-96 md:h-[600px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 flex items-center justify-between">
@@ -224,7 +233,9 @@ function ChatBot() {
                     }`}
                   >
                     <div className="text-sm leading-relaxed space-y-1">
-                      {message.sender === "bot" ? formatMessage(message.text) : message.text}
+                      {message.sender === "bot"
+                        ? formatMessage(message.text)
+                        : message.text}
                     </div>
                     <p
                       className={`text-xs mt-1.5 ${
@@ -285,24 +296,24 @@ function ChatBot() {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-slate-900 border-t border-slate-700">
-              <div className="flex gap-2">
+            <div className="p-3 bg-slate-900 border-t border-slate-700">
+              <div className="flex gap-1.5">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 px-4 py-2 rounded-full bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-white placeholder-gray-400"
+                  className="flex-1 px-4 py-2 rounded-full bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-white placeholder-gray-400 text-sm sm:text-base"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isTyping}
-                  className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="md:w-10 md:h-10 w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white shadow-md hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="md:w-5 md:h-5 w-4 h-4" />
                 </motion.button>
               </div>
             </div>

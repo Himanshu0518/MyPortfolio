@@ -235,28 +235,46 @@ function About() {
               href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/export?format=pdf"
               target="_blank"
               rel="noopener noreferrer"
+              className="block w-fit mx-auto"
             >
               <motion.button
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg rounded-full transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+                className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 text-white font-semibold text-sm sm:text-base rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+                whileTap={{ scale: 0.97 }}
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 16v-8m0 8l-3-3m3 3l3-3M4 16v4h16v-4"
+                  />
+                </svg>
                 Download CV
               </motion.button>
             </a>
+
             <motion.a
               href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/edit?usp=drive_link"
-              className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-white rounded-full overflow-hidden"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex items-center justify-center px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white rounded-full overflow-hidden w-fit mx-auto"
               style={{
                 background: "linear-gradient(90deg,#10b981,#3b82f6,#8b5cf6)",
               }}
-              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
             >
               <span className="relative z-10 flex items-center gap-2">
                 Resume
                 <motion.svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -271,6 +289,7 @@ function About() {
                   />
                 </motion.svg>
               </span>
+
               {!prefersReducedMotion && (
                 <motion.div
                   className="absolute inset-0 rounded-full blur-xl opacity-0 group-hover:opacity-30 transition-opacity"
