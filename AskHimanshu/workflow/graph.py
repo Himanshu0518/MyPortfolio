@@ -1,3 +1,4 @@
+# workflow/graph.py
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import StateGraph, END
@@ -5,22 +6,18 @@ from langgraph.prebuilt import ToolNode
 from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, SystemMessage
 from typing import TypedDict, List, Annotated
 import operator
-import sqlite3
+import aiosqlite
 
 from .tools import tools
 from utils.prompt import SYSTEM_PROMPT
-from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
 load_dotenv()
 
 # Define chat state
 class ChatState(TypedDict):
     messages: Annotated[List[BaseMessage], operator.add]
-    skills_cached: bool  # For caching GitHub skills (avoid refetch)
-
-# SQLite checkpointer for persistence
-sqlite_conn = sqlite3.connect("checkpoint.sqlite", check_same_thread=False)
-memory = SqliteSaver(sqlite_conn)
+    skills_cached: bool
 
 # Setup LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
@@ -32,7 +29,6 @@ def tool_router(state: ChatState):
     if hasattr(last_message, "tool_calls") and last_message.tool_calls:
         return "tools"
     return "end"
-
 
 # Chat node
 def chat_node(state: ChatState):
@@ -58,19 +54,40 @@ workflow.add_conditional_edges(
 )
 
 workflow.add_edge("tools", "agent")
-
 workflow.set_entry_point("agent")
 
-# ---- Runner function ----
-def run_workflow(user_input: str, id: str):
-    app = workflow.compile(checkpointer=memory)
+# Global memory instance - initialized at startup
+_db_connection = None
+_memory_instance = None
 
+async def get_checkpointer():
+    """Get or create the async checkpointer"""
+    global _db_connection, _memory_instance
+    
+    if _memory_instance is None:
+        # Create aiosqlite connection
+        _db_connection = await aiosqlite.connect("checkpoint.sqlite", check_same_thread=False)
+        # Create memory instance with the connection
+        _memory_instance = AsyncSqliteSaver(_db_connection)
+        # Setup database tables
+        await _memory_instance.setup()
+    
+    return _memory_instance
+
+# ---- Streaming Runner function ----
+async def run_workflow_stream(user_input: str, id: str):
+    """Stream the workflow execution"""
+    # Get checkpointer instance
+    mem = await get_checkpointer()
+    
+    app = workflow.compile(checkpointer=mem)
+    
     config = {"configurable": {"thread_id": id}}
 
-    # Check if there’s already state stored for this conversation
-    previous_state = app.get_state(config)
+    # Check if there's already state stored for this conversation
+    previous_state = await app.aget_state(config)
 
-    if not previous_state:
+    if not previous_state or not previous_state.values:
         # First turn → inject system prompt
         state = {
             "messages": [
@@ -84,5 +101,12 @@ def run_workflow(user_input: str, id: str):
             "messages": [HumanMessage(content=user_input)]
         }
 
-    result = app.invoke(state, config=config)
-    return result
+    # Stream the workflow
+    async for event in app.astream(state, config=config, stream_mode="values"):
+        # Get the last message in the current state
+        if "messages" in event and len(event["messages"]) > 0:
+            last_message = event["messages"][-1]
+            
+            if isinstance(last_message, AIMessage):
+                yield last_message.content
+
