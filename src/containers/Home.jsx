@@ -103,59 +103,45 @@ function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full items-center max-w-7xl mx-auto relative z-10">
         {/* Hero Image - first on mobile */}
-        <div className="w-full flex items-center justify-center order-1 lg:order-2 relative">
-          {/* Conic gradient ring */}
-          {!prefersReducedMotion && (
-            <motion.div
-              className="absolute w-[420px] h-[420px] max-w-[75vw] max-h-[75vw] rounded-full"
-              style={{
-                mask: "radial-gradient(closest-side, transparent 72%, black 73%)",
-                WebkitMask:
-                  "radial-gradient(closest-side, transparent 72%, black 73%)",
-                filter: "blur(0.5px)",
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-          )}
+      <div className="w-full flex items-center justify-center order-1 lg:order-2 relative">
+  <motion.div
+    className="relative z-10"
+    onMouseEnter={() => setCursorVariant("text")}
+    onMouseLeave={() => setCursorVariant("default")}
+  >
+    <motion.img
+      src={Hero}
+      alt="hero"
+      initial={{ y: 0, scale: 0.95, opacity: 0 }}
+      animate={
+        prefersReducedMotion
+          ? { scale: 1, opacity: 1 }
+          : { y: [-10, 10, -10], scale: 1, opacity: 1 }
+      }
+      transition={
+        prefersReducedMotion
+          ? { duration: 0.6 }
+          : {
+              y: {
+                duration: 4,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut",
+              },
+              scale: { duration: 0.8, delay: 0.1 },
+              opacity: { duration: 0.8, delay: 0.1 },
+            }
+      }
+      className="w-72 lg:w-[400px] object-contain drop-shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-transform duration-500"
+      whileHover={
+        prefersReducedMotion
+          ? undefined
+          : { scale: 1.05, filter: "brightness(1.1)" }
+      }
+    />
+  </motion.div>
+</div>
 
-          <motion.div
-            className="relative z-10"
-            onMouseEnter={() => setCursorVariant("text")}
-            onMouseLeave={() => setCursorVariant("default")}
-          >
-            <motion.img
-              src={Hero}
-              initial={{ y: 0, scale: 0.92, opacity: 0 }}
-              animate={
-                prefersReducedMotion
-                  ? { scale: 1, opacity: 1 }
-                  : { y: [-16, 16, -16], scale: 1, opacity: 1 }
-              }
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0.6 }
-                  : {
-                      y: {
-                        duration: 4,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut",
-                      },
-                      scale: { duration: 0.7, delay: 0.1 },
-                      opacity: { duration: 0.7, delay: 0.1 },
-                    }
-              }
-              className="w-72 lg:w-[400px] object-contain drop-shadow-[0_0_28px_rgba(34,197,94,0.35)]"
-              alt="hero"
-              whileHover={
-                prefersReducedMotion
-                  ? undefined
-                  : { scale: 1.03, filter: "brightness(1.1) contrast(1.1)" }
-              }
-            />
-          </motion.div>
-        </div>
 
       
         <motion.div

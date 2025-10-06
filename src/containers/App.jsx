@@ -10,7 +10,8 @@ import ChatBot from "../components/AskHimanshu";
 
 function App() {
    const prefersReducedMotion = useReducedMotion();
-
+   
+   
     const particles = useMemo(
       () =>
         Array.from({ length: 18 }).map(() => ({

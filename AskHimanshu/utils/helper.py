@@ -25,3 +25,11 @@ achievements = [
         "link": "https://github.com/Himanshu0518/Assets/blob/main/certificate.jpg?raw=true"
     }
 ]
+
+contact = {
+    "email": "himanshu.iiitu2027@gmail.com",
+    "phone": "+91 8188937945",
+    "linkedin": "https://www.linkedin.com/in/himanshu-singh23226/",
+    "github": "https://github.com/Himanshu0518"
+}
+

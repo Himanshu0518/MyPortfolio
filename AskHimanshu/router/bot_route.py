@@ -3,12 +3,21 @@ from fastapi.responses import StreamingResponse
 from workflow.graph import run_workflow_stream
 from schemas.schema import BotRequest
 import json
+import sqlite3
+import os 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "checkpoint.sqlite")
+
+
 
 router = APIRouter(
     prefix="/api",
     tags=["api"],
     responses={404: {"description": "Not found"}},
 )
+
+
 
 @router.get("/")
 async def root():
@@ -17,6 +26,7 @@ async def root():
 @router.post("/AskHimanshu")
 async def ask_himanshu(request: BotRequest):
     """Streaming endpoint for chatbot responses"""
+    print(DB_PATH)
     try:
         async def generate():
             async for chunk in run_workflow_stream(user_input=request.message, id=request.id):
@@ -38,3 +48,4 @@ async def ask_himanshu(request: BotRequest):
         )
     except Exception as e:
         return {"error": str(e)}
+    

@@ -3,8 +3,9 @@ import requests
 import base64
 from dotenv import load_dotenv
 import os 
-from utils.helper import work_experience, achievements
+from utils.helper import work_experience, achievements, contact
 from langchain_tavily import TavilySearch
+
 load_dotenv()
 
 USERNAME = os.getenv("GITHUB_USERNAME")
@@ -79,6 +80,21 @@ def fetch_acheivements() -> dict:
     """
     return {"acheivements": achievements}
 
+@tool("fetch_contact_details")
+def fetch_contact_details() -> dict:
+    """
+    Fetch Contact details 
+    Call this when the user wants to hire me or ask for contact details.
+    """
+    return {"contact-details": contact}
+
 search_tool =  TavilySearch()
 
-tools = [fetch_repos, fetch_skills_and_education, fetch_work_experience,fetch_acheivements,search_tool ]
+tools = [
+        fetch_repos, 
+         fetch_skills_and_education, 
+         fetch_work_experience,
+         fetch_acheivements,
+         fetch_contact_details,
+         search_tool 
+         ]

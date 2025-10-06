@@ -104,66 +104,43 @@ function About() {
         initial="hidden"
         animate={controls}
       >
-        <motion.div
-          className="w-full flex justify-center items-center relative"
+      <motion.div
+          className="relative flex items-center justify-center"
           variants={itemVariants}
         >
-          <div className="relative group">
-            {/* Single orbiting ring */}
+          {/* Floating Image with glow */}
+          <motion.div className="relative">
+            {/* Glow effect behind image */}
             {!prefersReducedMotion && (
               <motion.div
-                className="absolute inset-0 w-80 h-80 -top-4 -left-4"
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
+                className="absolute inset-0 rounded-full blur-2xl opacity-40"
+                style={{
+                  background: "radial-gradient(circle, #3b82f6, transparent 70%)",
                 }}
-              >
-                <div className="w-full h-full rounded-full border border-blue-400/30" />
-                <motion.div
-                  className="absolute top-4 left-1/2 w-2 h-2 rounded-full bg-blue-400"
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </motion.div>
-            )}
-
-            {/* Simplified Image Container */}
-            <motion.div
-              className="relative w-72 h-72 lg:w-80 lg:h-80 rounded-3xl p-1 bg-gradient-to-br from-blue-500 to-blue-600 shadow-2xl"
-              whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="w-full h-full rounded-3xl flex items-center justify-center relative overflow-hidden bg-slate-800">
-                {/* Mouse interaction effect */}
-                <motion.div
-                  className="absolute inset-0 opacity-20"
-                  style={{
-                    background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, #3b82f6 0%, transparent 50%)`,
-                  }}
-                />
-
-                <img
-                  src={about}
-                  alt="Profile"
-                  className="w-32 h-32 lg:w-40 lg:h-40 rounded-full border-4 border-blue-400/50 shadow-lg"
-                />
-              </div>
-
-              {/* Simple status indicator */}
-              <motion.div
-                className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-4 border-slate-900"
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
-            </motion.div>
-          </div>
+            )}
+            
+            {/* Profile Image */}
+            <motion.img
+              src={about}
+              alt="Profile"
+              className="relative w-64 h-64 lg:w-80 lg:h-80 rounded-full border-4 border-blue-500/40 shadow-2xl object-cover"
+              animate={
+                prefersReducedMotion
+                  ? undefined
+                  : {
+                      y: [0, -12, 0],
+                    }
+              }
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.05 }}
+              transition={{
+                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                scale: { duration: 0.3 },
+              }}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Right Content - Simplified */}

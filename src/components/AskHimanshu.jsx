@@ -12,7 +12,7 @@ function ChatBot() {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hi! I'm AskHimanshu bot. How can I help you today?",
+      text: "Hi! I'm Himanshu bot. How can I assist you?",
       sender: "bot",
       timestamp: new Date(),
     },
@@ -40,6 +40,8 @@ function ChatBot() {
     scrollToBottom();
   }, [messages]);
 
+   
+
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !sessionId) return;
 
@@ -50,6 +52,8 @@ function ChatBot() {
       sender: "user",
       timestamp: new Date(),
     };
+
+  
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
@@ -305,7 +309,7 @@ function ChatBot() {
                 </div>
               ))}
 
-              {/* ✅ Typing animation stays */}
+             
               {isTyping && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
