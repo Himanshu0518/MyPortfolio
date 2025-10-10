@@ -1,5 +1,3 @@
-
-# utils/utils.py
 import sqlite3
 import msgpack
 from datetime import datetime, timedelta, timezone
@@ -20,7 +18,7 @@ def clear_old_checkpoints():
         rows = cur.fetchall()
 
         now = datetime.now(timezone.utc)
-        threads_to_delete = set()  # Use set to avoid duplicates
+        threads_to_delete = set()
 
         for thread_id, blob_data in rows:
             try:
@@ -32,12 +30,21 @@ def clear_old_checkpoints():
                 if not ts_str:
                     continue
 
+                # Parse timestamp and ensure it's timezone-aware
                 ts = datetime.fromisoformat(ts_str)
-
+                
+                # If timestamp is naive, make it UTC-aware
+                if ts.tzinfo is None:
+                    ts = ts.replace(tzinfo=timezone.utc)
+                
+                # Convert to UTC for comparison
+                ts_utc = ts.astimezone(timezone.utc)
+                
                 # Check if older than 1 day
-                if now - ts > timedelta(days=1):
+                age = now - ts_utc
+                if age > timedelta(hours=12):
                     threads_to_delete.add(thread_id)
-
+           
             except Exception as e:
                 print(f"Error decoding checkpoint for thread {thread_id}: {e}")
 

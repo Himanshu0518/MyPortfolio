@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, TriangleAlert } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
 function generateUUID() {
@@ -40,8 +40,6 @@ function ChatBot() {
     scrollToBottom();
   }, [messages]);
 
-   
-
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !sessionId) return;
 
@@ -52,8 +50,6 @@ function ChatBot() {
       sender: "user",
       timestamp: new Date(),
     };
-
-  
 
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
@@ -116,7 +112,6 @@ function ChatBot() {
               if (parsed.content) {
                 accumulatedText = parsed.content;
 
-                // Update the bot message with accumulated text
                 setMessages((prev) =>
                   prev.map((msg) =>
                     msg.id === botMessageId
@@ -126,7 +121,7 @@ function ChatBot() {
                 );
               }
             } catch (e) {
-              // Ignore JSON parse errors
+              console.error(e);
             }
           }
         }
@@ -272,6 +267,14 @@ function ChatBot() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-950">
+              <p className="flex items-start gap-2 p-2 bg-yellow-50 text-yellow-700 text-xs rounded-md border border-yellow-200 shadow-sm">
+                <TriangleAlert className="mt-0.5 w-4 h-4 flex-shrink-0" />
+                <span>
+                  First response may take a little time due to free service
+                  deployment of render.
+                </span>
+              </p>
+
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -309,7 +312,6 @@ function ChatBot() {
                 </div>
               ))}
 
-             
               {isTyping && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
