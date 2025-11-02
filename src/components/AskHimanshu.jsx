@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, TriangleAlert } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
+
 function generateUUID() {
   return uuidv4();
 }
@@ -55,13 +56,16 @@ function ChatBot() {
     setInputValue("");
     setIsTyping(true);
 
-    const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU;
+    // Use your HF Spaces URL
+    const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU 
 
     try {
+      console.log(BASE_URL);
       const response = await fetch(`${BASE_URL}/api/AskHimanshu`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "text/event-stream",
         },
         body: JSON.stringify({
           message: userInput,
@@ -73,7 +77,12 @@ function ChatBot() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Once streaming starts, hide typing indicator and create bot message
+      // Check if response body exists
+      if (!response.body) {
+        throw new Error("ReadableStream not supported");
+      }
+
+      // Hide typing indicator and create bot message
       setIsTyping(false);
 
       const botMessageId = Date.now() + 1;
@@ -93,19 +102,30 @@ function ChatBot() {
       while (true) {
         const { done, value } = await reader.read();
 
-        if (done) break;
+        if (done) {
+          console.log("Stream complete");
+          break;
+        }
 
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split("\n");
 
         for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6);
+          const trimmedLine = line.trim();
+          
+          if (trimmedLine.startsWith("data: ")) {
+            const data = trimmedLine.slice(6);
+
+            // Skip empty data
+            if (!data || data === "[DONE]") {
+              continue;
+            }
 
             try {
               const parsed = JSON.parse(data);
 
               if (parsed.done) {
+                console.log("Received done signal");
                 break;
               }
 
@@ -120,8 +140,9 @@ function ChatBot() {
                   )
                 );
               }
-            } catch (e) {
-              console.error(e);
+            } catch (parseError) {
+              console.warn("Failed to parse JSON:", data, parseError);
+              // Continue to next line if JSON parsing fails
             }
           }
         }
@@ -146,7 +167,7 @@ function ChatBot() {
         ...prev,
         {
           id: botMessageId,
-          text: "Sorry, I'm having trouble connecting right now. Please try again later.",
+          text: `Sorry, I'm having trouble connecting right now. Error: ${error.message}. Please try again later.`,
           sender: "bot",
           timestamp: new Date(),
         },
@@ -267,14 +288,7 @@ function ChatBot() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-950">
-              <p className="flex items-start gap-2 p-2 bg-yellow-50 text-yellow-700 text-xs rounded-md border border-yellow-200 shadow-sm">
-                <TriangleAlert className="mt-0.5 w-4 h-4 flex-shrink-0" />
-                <span>
-                  First response may take a little time due to free service
-                  deployment of render.
-                </span>
-              </p>
-
+            
               {messages.map((message) => (
                 <div
                   key={message.id}
