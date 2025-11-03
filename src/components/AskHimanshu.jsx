@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, TriangleAlert } from "lucide-react";
+import { MessageCircle, X, Send } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-
 
 function generateUUID() {
   return uuidv4();
@@ -18,20 +17,16 @@ function ChatBot() {
       timestamp: new Date(),
     },
   ]);
-
   const [sessionId, setSessionId] = useState(null);
-
-  useEffect(() => {
-    if (!sessionId) {
-      const newSessionId = generateUUID();
-      setSessionId(newSessionId);
-    }
-  }, [sessionId]);
-
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  // generate session id
+  useEffect(() => {
+    if (!sessionId) setSessionId(generateUUID());
+  }, [sessionId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,7 +39,7 @@ function ChatBot() {
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !sessionId) return;
 
-    const userInput = inputValue;
+    const userInput = inputValue.trim();
     const userMessage = {
       id: Date.now(),
       text: userInput,
@@ -56,16 +51,14 @@ function ChatBot() {
     setInputValue("");
     setIsTyping(true);
 
-    // Use your HF Spaces URL
-    const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU 
+    const BASE_URL = import.meta.env.VITE_ASK_HIMANSHU;
 
     try {
-      console.log(BASE_URL);
       const response = await fetch(`${BASE_URL}/api/AskHimanshu`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "text/event-stream",
+          Accept: "text/event-stream",
         },
         body: JSON.stringify({
           message: userInput,
@@ -77,23 +70,15 @@ function ChatBot() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Check if response body exists
       if (!response.body) {
         throw new Error("ReadableStream not supported");
       }
 
-      // Hide typing indicator and create bot message
-      setIsTyping(false);
-
       const botMessageId = Date.now() + 1;
-      const botMessage = {
-        id: botMessageId,
-        text: "",
-        sender: "bot",
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages((prev) => [
+        ...prev,
+        { id: botMessageId, text: "", sender: "bot", timestamp: new Date() },
+      ]);
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -101,37 +86,45 @@ function ChatBot() {
 
       while (true) {
         const { done, value } = await reader.read();
-
-        if (done) {
-          console.log("Stream complete");
-          break;
-        }
+        if (done) break;
 
         const chunk = decoder.decode(value, { stream: true });
         const lines = chunk.split("\n");
 
         for (const line of lines) {
           const trimmedLine = line.trim();
-          
-          if (trimmedLine.startsWith("data: ")) {
-            const data = trimmedLine.slice(6);
+          if (!trimmedLine.startsWith("data: ")) continue;
 
-            // Skip empty data
-            if (!data || data === "[DONE]") {
-              continue;
-            }
+          const data = trimmedLine.slice(6);
+          if (!data || data === "[DONE]") continue;
 
-            try {
-              const parsed = JSON.parse(data);
+          try {
+            const parsed = JSON.parse(data);
 
-              if (parsed.done) {
-                console.log("Received done signal");
-                break;
+            if (parsed.done) break;
+
+            // Extract text from the nested structure
+            if (parsed.content) {
+              let extractedText = "";
+
+              // Handle array of content objects
+              if (Array.isArray(parsed.content)) {
+                extractedText = parsed.content
+                  .filter((item) => item.type === "text" && item.text)
+                  .map((item) => item.text)
+                  .join("");
+              }
+              // Handle single content object
+              else if (typeof parsed.content === "object" && parsed.content.text) {
+                extractedText = parsed.content.text;
+              }
+              // Handle plain string
+              else if (typeof parsed.content === "string") {
+                extractedText = parsed.content;
               }
 
-              if (parsed.content) {
-                accumulatedText = parsed.content;
-
+              if (extractedText) {
+                accumulatedText = extractedText;
                 setMessages((prev) =>
                   prev.map((msg) =>
                     msg.id === botMessageId
@@ -140,15 +133,13 @@ function ChatBot() {
                   )
                 );
               }
-            } catch (parseError) {
-              console.warn("Failed to parse JSON:", data, parseError);
-              // Continue to next line if JSON parsing fails
             }
+          } catch (e) {
+            console.warn("Error parsing chunk:", e);
           }
         }
       }
 
-      // If no text was accumulated, show error
       if (!accumulatedText) {
         setMessages((prev) =>
           prev.map((msg) =>
@@ -160,19 +151,18 @@ function ChatBot() {
       }
     } catch (error) {
       console.error("Error fetching bot response:", error);
-      setIsTyping(false);
 
-      const botMessageId = Date.now() + 1;
       setMessages((prev) => [
         ...prev,
         {
-          id: botMessageId,
-          text: `Sorry, I'm having trouble connecting right now. Error: ${error.message}. Please try again later.`,
+          id: Date.now() + 1,
+          text: `Sorry, I'm having trouble connecting right now. (${error.message})`,
           sender: "bot",
           timestamp: new Date(),
         },
       ]);
     }
+    setIsTyping(false);
   };
 
   const handleKeyPress = (e) => {
@@ -182,20 +172,37 @@ function ChatBot() {
     }
   };
 
-  // Format markdown-style text to JSX
   const formatMessage = (text) => {
-    const lines = text.split("\n");
+    if (!text) return null;
+    if (typeof text !== "string") {
+      try {
+        text = JSON.stringify(text);
+      } catch {
+        text = String(text);
+      }
+    }
+
+    // Remove HTML tags and replace with appropriate formatting
+    let formattedText = text
+    
+
+    const lines = formattedText.split("\n");
 
     return lines.map((line, i) => {
-      let formattedLine = line.replace(
-        /\*\*(.*?)\*\*/g,
-        '<strong class="font-semibold text-green-400">$1</strong>'
-      );
-      formattedLine = formattedLine.replace(
-        /__(.*?)__/g,
-        '<strong class="font-semibold text-green-400">$1</strong>'
-      );
+      if (!line.trim()) return <div key={i} className="h-2" />;
 
+      // Format bold text
+      let formattedLine = line
+        .replace(
+          /\*\*(.*?)\*\*/g,
+          '<strong class="font-semibold text-green-400">$1</strong>'
+        )
+        .replace(
+          /__(.*?)__/g,
+          '<strong class="font-semibold text-green-400">$1</strong>'
+        );
+
+      // Handle bullet points
       if (line.trim().startsWith("*") && !line.trim().startsWith("**")) {
         const bulletText = line.trim().substring(1).trim();
         const formattedBullet = bulletText.replace(
@@ -210,13 +217,9 @@ function ChatBot() {
         );
       }
 
-      if (line.trim()) {
-        return (
-          <div key={i} dangerouslySetInnerHTML={{ __html: formattedLine }} />
-        );
-      }
-
-      return <div key={i} className="h-2" />;
+      return (
+        <div key={i} dangerouslySetInnerHTML={{ __html: formattedLine }} />
+      );
     });
   };
 
@@ -288,7 +291,6 @@ function ChatBot() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-950">
-            
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -376,7 +378,7 @@ function ChatBot() {
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
                   placeholder="Type your message..."
                   className="flex-1 px-4 py-2 rounded-full bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-white placeholder-gray-400 text-sm sm:text-base"
                 />
