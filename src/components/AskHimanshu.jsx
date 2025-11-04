@@ -238,7 +238,7 @@ function ChatBot() {
       >
         <motion.button
           onClick={() => !isDragging && setIsOpen(true)}
-          className="relative md:w-16 md:h-16 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
+          className="relative md:w-14 md:h-14 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
           animate={{
             boxShadow: [
               "0 4px 20px rgba(34,197,94,0.3)",
@@ -249,7 +249,7 @@ function ChatBot() {
           transition={{ duration: 3, repeat: Infinity }}
         >
           <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <MessageCircle className="w-4 h-4 md:w-7 md:h-7 relative z-10" />
+          <MessageCircle className="w-4 h-4 md:w-6 md:h-6 relative z-10" />
 
           <motion.div
             className="absolute inset-0 rounded-full border-2 border-white"
@@ -268,7 +268,7 @@ function ChatBot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed md:bottom-24 bottom-30 w-80 h-[500px] left-6 md:w-96 md:h-[600px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
+            className="fixed md:bottom-24 bottom-30 w-80 h-[500px] left-6 md:w-90 md:h-[550px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 flex items-center justify-between">

@@ -105,7 +105,7 @@ function Contact() {
     {
       icon: FaEnvelope,
       title: "Email Me",
-      value: "himanshu.singh@example.com",
+      value: "himanshu.iiitu2027@gmail.com",
       link: "mailto:himanshu.iiitu2027@gmail.com",
       color: "from-red-400 to-pink-400"
     },
