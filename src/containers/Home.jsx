@@ -204,11 +204,7 @@ function Home() {
               sequence={[
                 "Full Stack AI/ML Developer",
                 2000,
-                "Machine Learning Enthusiast",
-                2000,
-                "Data Science Explorer",
-                2000,
-                "MLOps Specialist",
+                "Machine Learning and MLOPS Enthusiast",
                 2000,
                 "AI Solution Architect",
                 2000,
