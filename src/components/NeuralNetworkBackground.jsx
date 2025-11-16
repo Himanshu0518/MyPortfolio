@@ -36,8 +36,8 @@ const NeuralNetworkBackground = () => {
         this.y = Math.random() * canvas.height;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.radius = Math.random() * 2 + 1.5;
+        this.opacity = Math.random() * 0.4 + 0.4;
       }
 
       update() {
@@ -82,8 +82,8 @@ const NeuralNetworkBackground = () => {
       }
     }
 
-    // Initialize particles
-    const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+    // Initialize particles - increased count
+    const particleCount = Math.floor((canvas.width * canvas.height) / 10000);
     particlesRef.current = [];
     for (let i = 0; i < particleCount; i++) {
       particlesRef.current.push(new Particle());
@@ -91,7 +91,7 @@ const NeuralNetworkBackground = () => {
 
     // Draw connections
     const drawConnections = () => {
-      const maxDistance = 120;
+      const maxDistance = 140;
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
           const dx = particlesRef.current[i].x - particlesRef.current[j].x;
@@ -99,10 +99,10 @@ const NeuralNetworkBackground = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxDistance) {
-            const opacity = (1 - distance / maxDistance) * 0.3;
+            const opacity = (1 - distance / maxDistance) * 0.5;
             ctx.beginPath();
             ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1.2;
             ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
             ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
             ctx.stroke();
@@ -151,7 +151,7 @@ const NeuralNetworkBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.4 }}
+      style={{ zIndex: 0, opacity: 0.6 }}
     />
   );
 };
