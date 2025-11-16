@@ -23,7 +23,6 @@ function ChatBot() {
   const messagesEndRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // generate session id
   useEffect(() => {
     if (!sessionId) setSessionId(generateUUID());
   }, [sessionId]);
@@ -103,23 +102,17 @@ function ChatBot() {
 
             if (parsed.done) break;
 
-            // Extract text from the nested structure
             if (parsed.content) {
               let extractedText = "";
 
-              // Handle array of content objects
               if (Array.isArray(parsed.content)) {
                 extractedText = parsed.content
                   .filter((item) => item.type === "text" && item.text)
                   .map((item) => item.text)
                   .join("");
-              }
-              // Handle single content object
-              else if (typeof parsed.content === "object" && parsed.content.text) {
+              } else if (typeof parsed.content === "object" && parsed.content.text) {
                 extractedText = parsed.content.text;
-              }
-              // Handle plain string
-              else if (typeof parsed.content === "string") {
+              } else if (typeof parsed.content === "string") {
                 extractedText = parsed.content;
               }
 
@@ -182,36 +175,31 @@ function ChatBot() {
       }
     }
 
-    // Remove HTML tags and replace with appropriate formatting
-    let formattedText = text
-    
-
+    let formattedText = text;
     const lines = formattedText.split("\n");
 
     return lines.map((line, i) => {
       if (!line.trim()) return <div key={i} className="h-2" />;
 
-      // Format bold text
       let formattedLine = line
         .replace(
           /\*\*(.*?)\*\*/g,
-          '<strong class="font-semibold text-green-400">$1</strong>'
+          '<strong class="font-semibold text-blue-300">$1</strong>'
         )
         .replace(
           /__(.*?)__/g,
-          '<strong class="font-semibold text-green-400">$1</strong>'
+          '<strong class="font-semibold text-blue-300">$1</strong>'
         );
 
-      // Handle bullet points
       if (line.trim().startsWith("*") && !line.trim().startsWith("**")) {
         const bulletText = line.trim().substring(1).trim();
         const formattedBullet = bulletText.replace(
           /\*\*(.*?)\*\*/g,
-          '<strong class="font-semibold text-green-400">$1</strong>'
+          '<strong class="font-semibold text-blue-300">$1</strong>'
         );
         return (
           <div key={i} className="flex gap-2 ml-2 items-start">
-            <span className="text-green-400 mt-0.5">•</span>
+            <span className="text-blue-400 mt-0.5">•</span>
             <span dangerouslySetInnerHTML={{ __html: formattedBullet }} />
           </div>
         );
@@ -233,30 +221,14 @@ function ChatBot() {
         onDragStart={() => setIsDragging(true)}
         onDragEnd={() => setTimeout(() => setIsDragging(false), 100)}
         className="fixed bottom-40 left-6 z-50 cursor-move"
-        whileHover={{ scale: isDragging ? 1 : 1.1 }}
+        whileHover={{ scale: isDragging ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         <motion.button
           onClick={() => !isDragging && setIsOpen(true)}
-          className="relative md:w-14 md:h-14 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
-          animate={{
-            boxShadow: [
-              "0 4px 20px rgba(34,197,94,0.3)",
-              "0 4px 30px rgba(59,130,246,0.5)",
-              "0 4px 20px rgba(34,197,94,0.3)",
-            ],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
+          className="relative md:w-14 md:h-14 w-12 h-12 rounded-full bg-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
         >
-          <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <MessageCircle className="w-4 h-4 md:w-6 md:h-6 relative z-10" />
-
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-white"
-            initial={{ scale: 1, opacity: 0.5 }}
-            animate={{ scale: 1.5, opacity: 0 }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
         </motion.button>
       </motion.div>
 
@@ -264,16 +236,16 @@ function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed md:bottom-24 bottom-30 w-80 h-[500px] left-6 md:w-90 md:h-[550px] bg-slate-900 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-700"
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed md:bottom-24 bottom-30 w-80 h-[500px] left-6 md:w-90 md:h-[550px] bg-slate-900 rounded-lg shadow-xl z-50 flex flex-col overflow-hidden border border-slate-700"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 flex items-center justify-between">
+            <div className="bg-blue-500 p-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                   <MessageCircle className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -299,10 +271,10 @@ function ChatBot() {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 ${
+                    className={`max-w-[80%] rounded-lg px-4 py-2.5 ${
                       message.sender === "user"
-                        ? "bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-br-none"
-                        : "bg-slate-800 text-gray-200 rounded-bl-none shadow-sm"
+                        ? "bg-blue-500 text-white"
+                        : "bg-slate-800 text-gray-200"
                     }`}
                   >
                     <div className="text-sm leading-relaxed space-y-1">
@@ -335,7 +307,7 @@ function ChatBot() {
                   exit={{ opacity: 0, y: 10 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-slate-800 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
+                  <div className="bg-slate-800 rounded-lg px-4 py-3">
                     <div className="flex gap-1">
                       <motion.div
                         className="w-2 h-2 bg-gray-400 rounded-full"
@@ -380,14 +352,14 @@ function ChatBot() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 px-4 py-2 rounded-full bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-white placeholder-gray-400 text-sm sm:text-base"
+                  className="flex-1 px-4 py-2 rounded-full bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-400 text-sm sm:text-base"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isTyping}
-                  className="md:w-10 md:h-10 w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white shadow-md hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="md:w-10 md:h-10 w-8 h-8 flex-shrink-0 rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send className="md:w-5 md:h-5 w-4 h-4" />
                 </motion.button>
