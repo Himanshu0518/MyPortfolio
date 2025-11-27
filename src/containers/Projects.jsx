@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+
+import { motion} from "framer-motion";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import { ProjectsData } from "../utils/helper";
 
 function Projects() {
-  const prefersReducedMotion = useReducedMotion();
+  
 
   const containerVariants = {
     hidden: { opacity: 0 },

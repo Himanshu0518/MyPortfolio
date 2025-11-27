@@ -6,6 +6,7 @@ import About from "./About";
 import Skills from "./Skills";
 import Projects from "./Projects";
 import Contact from "./Contact";
+import Blog from "./Blog";
 import ChatBot from "../components/AskHimanshu";
 import { NeuralNetworkBackground } from "../components";
 
@@ -30,8 +31,14 @@ function App() {
         {/* Projects */}
         <Projects />
 
+          {/* blogs */}
+
+        <Blog />
+
         {/* Contact */}
         <Contact />
+        
+      
 
         {/* AskHimanshu ChatBot */}
         <AnimatePresence>

@@ -40,6 +40,9 @@ function About() {
       },
     },
   };
+  const fileId = "1TGbZ3ewUxyHxm6qPNrjqk-fcivapF2mv";
+const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+
 
   return (
     <section
@@ -123,13 +126,13 @@ function About() {
             variants={itemVariants}
           >
             <a
-              href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/export?format=pdf"
+              href={directDownloadUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-fit"
             >
               <motion.button
-                className="px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+                className="px-4 py-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -152,7 +155,7 @@ function About() {
             </a>
 
             <motion.a
-              href="https://docs.google.com/document/d/1PfkepKJTyZPXimkeFMIXrQqBkjRxR6gwyiC0T6ajrKI/edit?usp=drive_link"
+              href="https://drive.google.com/file/d/1TGbZ3ewUxyHxm6qPNrjqk-fcivapF2mv/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 w-fit"

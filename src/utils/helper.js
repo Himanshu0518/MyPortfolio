@@ -7,6 +7,7 @@ import {
   FaLinkedinIn,
   FaRenren,
   FaUser,
+  FaCode,
 } from "react-icons/fa6";
 import {
  InterviewBot,
@@ -70,7 +71,15 @@ export const Menus = [
     uri: "#projects",
     name: "Projects",
   },
+ 
   {
+    id:`blogs-${Date.now()}`,
+    Icon: FaCode,
+    uri: "#blogs",
+    name: "Blogs",
+  },
+  
+   {
     id: `contact-${Date.now()}`,
     Icon: FaEnvelope,
     uri: "#contact",
@@ -136,3 +145,23 @@ export const ProjectsData = [
   }
 ];
 
+export const blogs = [
+  {
+    id: `blog1-${Date.now()}`,
+    title: "Beyond Crop Suggestion: Predicting What Grows Best and Pays Best",
+    description: "Machine learning model that recommends suitable crops based on soil parameters while predicting profitability. Combines agricultural science with predictive analytics.",
+    link: "https://medium.com/@hs7875289/beyond-crop-suggestion-predicting-what-grows-best-and-pays-best-4080e0bc141b",
+  },
+  {
+    id: `blog2-${Date.now()}`,
+    title: "Time Series Analysis of Crop Prices in India",
+    description: "Comprehensive time series analysis exploring seasonal patterns and trends in Indian crop prices. Includes forecasting techniques and data visualization strategies.",
+    link: "https://www.kaggle.com/code/himanshu9648/time-series-analysis-of-crop-prices-in-india",
+  },
+  {
+    id: `blog3-${Date.now()}`,
+    title: "English Accent Recognition",
+    description: "Audio classification system using Librosa for feature extraction and scikit-learn for modeling. Trained on custom dataset collected from youtube with multiple accent variations.",
+    link: "https://www.kaggle.com/code/himanshu9648/accent-recognition",
+  },
+];
