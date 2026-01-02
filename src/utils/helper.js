@@ -8,6 +8,7 @@ import {
   FaRenren,
   FaUser,
   FaCode,
+  FaBriefcase,
 } from "react-icons/fa6";
 import {
  InterviewBot,
@@ -28,7 +29,7 @@ export const Socials = [
   {
     id: `linkedin-${Date.now()}`,
     Icon: FaLinkedinIn,
-    uri: "www.linkedin.com/in/himanshu-singh23226",
+    uri: "https://www.linkedin.com/in/himanshu-singh23226",
     color: "#0072b1",
   },
   {
@@ -64,7 +65,12 @@ export const Menus = [
     uri: "#skills",
     name: "Skills",
   },
-
+  {
+    id: `experience-${Date.now()}`,
+    Icon: FaBriefcase,
+    uri: "#experience",
+    name: "Experience",
+  },
   {
     id: `projects-${Date.now()}`,
     Icon: FaDiagramProject,
@@ -85,6 +91,39 @@ export const Menus = [
     uri: "#contact",
     name: "Contact",
   },
+];
+
+export const ExperienceData = [
+  {
+    id: `mindtrot-${Date.now()}`,
+    company: "Mindtrot",
+    position: "Software Engineer Intern",
+    duration: "Dec 2025 - Present",
+    location: "Remote",
+    type: "Internship",
+    description: [
+      "Working with modern web technologies to build scalable applications",
+      "Implementing responsive UI components using React.js and Ant Design",
+      "Collaborating with cross-functional teams on product development"
+    ],
+    skills: ["React.js", "Ant Design", "TypeScript"],
+    current: true
+  },
+  {
+    id: `taiyari24-${Date.now()}`,
+    company: "Taiyari24",
+    position: "Full Stack Developer",
+    duration: "Aug 2025 - Nov 2025",
+    location: "Remote",
+    type: "Internship",
+    description: [
+      "Worked on multiple client projects as a freelance Full Stack  Developer",
+      "Developed and tested backend systems using Node.js and integrated REST APIs with the frontend using Axios",
+      "Handled state management and collaborated on building responsive, scalable web applications"
+    ],
+    skills: ["React.js", "Express.js", "MongoDB","Firebase"],
+    current: false
+  }
 ];
 
 export const ProjectsData = [

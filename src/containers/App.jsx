@@ -4,9 +4,9 @@ import Header from "./Header";
 import Home from "./Home";
 import About from "./About";
 import Skills from "./Skills";
+import Experience from "./Experience";
 import Projects from "./Projects";
 import Contact from "./Contact";
-import Blog from "./Blog";
 import ChatBot from "../components/AskHimanshu";
 import { NeuralNetworkBackground } from "../components";
 
@@ -28,17 +28,14 @@ function App() {
         {/* Skills */}
         <Skills />
 
+        {/* Experience */}
+        <Experience />
+
         {/* Projects */}
         <Projects />
 
-          {/* blogs */}
-
-        <Blog />
-
         {/* Contact */}
         <Contact />
-        
-      
 
         {/* AskHimanshu ChatBot */}
         <AnimatePresence>
