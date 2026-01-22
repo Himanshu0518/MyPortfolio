@@ -21,7 +21,7 @@ function Blog() {
   };
 
   return (
-    <section id="blogs" className="w-full min-h-screen py-20 px-6 lg:px-20 relative">
+    <section id="blogs" className="w-full min-h-screen py-18 px-6 lg:px-20 relative">
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div

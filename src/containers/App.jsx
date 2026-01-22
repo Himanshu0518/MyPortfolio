@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Header from "./Header";
 import Home from "./Home";
 import About from "./About";
+import Blog from "./Blog"
 import Skills from "./Skills";
 import Experience from "./Experience";
 import Projects from "./Projects";
@@ -34,6 +35,9 @@ function App() {
         {/* Projects */}
         <Projects />
 
+        {/* My Blogs */}
+        <Blog/>
+        
         {/* Contact */}
         <Contact />
 

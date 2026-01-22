@@ -72,7 +72,7 @@ function Skills() {
     <section
       id="skills"
       ref={ref}
-      className="w-full min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-20 relative overflow-hidden"
+      className="w-full min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-18 relative overflow-hidden"
     >
       <div className="w-full max-w-7xl mx-auto relative z-10">
         {/* Header Section */}

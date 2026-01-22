@@ -48,7 +48,7 @@ const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${file
     <section
       id="about"
       ref={ref}
-      className="w-full min-h-screen flex justify-center items-center px-6 lg:px-20 py-20 relative overflow-hidden mt-12 pt-4"
+      className="w-full min-h-screen flex justify-center items-center px-6 lg:px-20 py-18 relative overflow-hidden mt-12 pt-4"
     >
       <motion.div
         className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10"

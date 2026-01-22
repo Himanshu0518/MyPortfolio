@@ -14,7 +14,7 @@ import {
  InterviewBot,
   CodeCraft,
   Aggroassist,
-  SpamMail,
+  eShop,
   Vehicle,
   AccentRecognition
 } from "../assets";
@@ -127,6 +127,16 @@ export const ExperienceData = [
 ];
 
 export const ProjectsData = [
+    {
+    id: `eShop-${Date.now()}`,
+    name: "eShop",
+    imgSrc: eShop,
+    gitURL:
+      "https://github.com/Himanshu0518/eShop",
+    demo: "https://e-shop-virid.vercel.app",
+    description:
+      "An AI-powered e-commerce platform featuring semantic search, personalized recommendations, and CI/CD-driven deployments."
+  },
   {
     id: `CodeCraft-${Date.now()}`,
     name: "CodeCraft",
@@ -171,16 +181,6 @@ export const ProjectsData = [
     demo: "https://youtu.be/5e-8gAVst2k",
     description:
       "End-to-end pipeline for vehicle insurance prediction with MLOps and CI/CD."
-  },
-  {
-    id: `SpamClassifier-${Date.now()}`,
-    name: "Spam Mail Classifier",
-    imgSrc: SpamMail,
-    gitURL:
-      "https://github.com/Himanshu0518/Spam-detection-End-to-End-pipeline-MLOPS.git",
-    demo: "https://spam-detection-qdm1.onrender.com",
-    description:
-      "Spam detection using TF-IDF + ML with Flask using DVC pipeline."
   }
 ];
 

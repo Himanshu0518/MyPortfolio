@@ -97,7 +97,7 @@ function Contact() {
   return (
     <section 
       id="contact" 
-      className="w-full min-h-screen py-20 px-6 lg:px-20 relative overflow-hidden"
+      className="w-full min-h-screen py-18 px-6 lg:px-20 relative overflow-hidden"
     >
       <div className="relative max-w-7xl mx-auto">
         {/* Header Section */}
