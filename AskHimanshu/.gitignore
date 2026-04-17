@@ -62,3 +62,10 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.p_
+
+# Databases
+*.sqlite*
+
+# Environment
+.env
+
