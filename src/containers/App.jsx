@@ -13,11 +13,11 @@ import { NeuralNetworkBackground } from "../components";
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen w-full relative">
       {/* Neural Network Background */}
       <NeuralNetworkBackground />
       
-      <div className="w-full xl:w-[1600px] py-32 px-4 lg:px-12 pr-4 lg-pr-32 relative z-10">
+      <div className="w-full max-w-[1600px] mx-auto py-32 px-4 lg:px-12 relative z-10">
         {/* Header */}
         <Header />
         {/* Home Container */}
@@ -54,7 +54,7 @@ function App() {
           </motion.div>
         </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,8 +1,7 @@
-
 import { AnimatePresence, motion } from "framer-motion";
 
 const tooltipVariants = {
-  hidden: { opacity: 0, x: 10, scale: 0.95 }, // animate in from right
+  hidden: { opacity: 0, x: 10, scale: 0.95 },
   visible: { opacity: 1, x: 0, scale: 1 },
   exit: { opacity: 0, x: 10, scale: 0.95 },
 };
@@ -13,11 +12,11 @@ const MenuItem = ({ menu, index }) => {
       <a
         href={menu.uri}
         title={menu.label || `Menu item ${index + 1}`}
-        className="w-12 h-12 rounded-full flex items-center justify-center
-                   cursor-pointer hover:bg-gradient-to-br from-green-400 to-green-600 
+        className="w-10 h-10 lg:w-9 lg:h-9 xl:w-10 xl:h-10 rounded-full flex items-center justify-center
+                   cursor-pointer hover:bg-gradient-to-br from-green-400 to-green-600
                    transition-all duration-300 ease-in-out hover:scale-110"
       >
-        <menu.Icon className="w-6 h-6 text-gray-200 group-hover:text-white transition-colors duration-300" />
+        <menu.Icon className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-gray-200 group-hover:text-white transition-colors duration-300" />
       </a>
 
       {/* Tooltip (Left Side) */}
@@ -28,10 +27,10 @@ const MenuItem = ({ menu, index }) => {
           animate="visible"
           exit="exit"
           transition={{ duration: 0.2 }}
-          className="absolute top-1/2 right-16 -translate-y-1/2 
-                     bg-white text-black rounded-md shadow-lg px-3 py-1 
+          className="absolute top-1/2 right-14 -translate-y-1/2
+                     bg-white text-black rounded-md shadow-lg px-3 py-1
                      text-sm whitespace-nowrap hidden group-hover:block"
-                     style={{boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.4)"}}
+          style={{ boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.4)" }}
         >
           {menu?.name}
           {/* Tooltip arrow */}

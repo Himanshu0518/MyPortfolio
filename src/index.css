@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
-
-
-body {
-  width: 100vw;
-  min-height: 100vh;
-  height: 100vh;
-  background: #020010;
-  font-family: "Croissant One", cursive;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-body,
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #020010;
+  font-family: "Croissant One", cursive;
+  overflow-x: hidden;
 }
