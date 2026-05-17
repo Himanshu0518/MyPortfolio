@@ -155,7 +155,7 @@ const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${file
             </a>
 
             <motion.a
-              href="https://drive.google.com/file/d/1TGbZ3ewUxyHxm6qPNrjqk-fcivapF2mv/view?usp=sharing"
+              href="https://drive.google.com/file/d/1flEOrUryE7VbSPwudfsZmnoOwxMtFwJU/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 w-fit"
