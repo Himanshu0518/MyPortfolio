@@ -20,6 +20,7 @@ def fetch_repos() -> list:
     """
     Fetch all GitHub repos with details, links, and topics.
     Call this when the user asks about projects, repos, or code.
+    for projects return repos whose description says project not tutorial or notes
     """
     repos_url = "https://api.github.com/user/repos"
     repos_response = requests.get(
@@ -88,6 +89,28 @@ def fetch_contact_details() -> dict:
     """
     return {"contact-details": contact}
 
+@tool("fetch_project_detail")
+def fetch_project_details(repo_name: str) -> dict:
+    """
+    Fetch project details
+    Call this when the user asks about specific project
+    repo_name you can find from fetch_repos tool by using name attribute of specific project
+    """
+    
+    repo_url = f"https://api.github.com/repos/{USERNAME}/{repo_name}/contents/README.md"
+    readme_response = requests.get(
+        repo_url, auth=(USERNAME, GITHUB_ACCESS_TOKEN), headers=HEADERS
+    )
+    if readme_response.status_code == 200:
+        readme_data = readme_response.json()
+        # The content is base64 encoded
+        readme_content_encoded = readme_data['content']
+        readme_content_decoded = base64.b64decode(readme_content_encoded).decode('utf-8')
+        
+        return {"project-details": readme_content_decoded}
+    else:
+        return {"error": f"Failed to fetch README. Status Code: {readme_response.status_code}"}
+
 search_tool =  TavilySearch()
 
 tools = [
@@ -96,5 +119,6 @@ tools = [
          fetch_work_experience,
          fetch_acheivements,
          fetch_contact_details,
-         search_tool 
+         search_tool ,
+         fetch_project_details
          ]

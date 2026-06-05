@@ -9,6 +9,10 @@ function generateUUID() {
 
 function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showHint, setShowHint] = useState(() => {
+    // Show hint only if user hasn't dismissed it before
+    return !sessionStorage.getItem("chatbot_hint_dismissed");
+  });
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -165,6 +169,11 @@ function ChatBot() {
     }
   };
 
+  const dismissHint = () => {
+    setShowHint(false);
+    sessionStorage.setItem("chatbot_hint_dismissed", "true");
+  };
+
   const formatMessage = (text) => {
     if (!text) return null;
     if (typeof text !== "string") {
@@ -213,6 +222,41 @@ function ChatBot() {
 
   return (
     <>
+      {/* Chatbot hint / pointer for first-time visitors */}
+      <AnimatePresence>
+        {showHint && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ delay: 1.2, duration: 0.4 }}
+            className="fixed bottom-40 left-24 z-50 flex items-center gap-2"
+          >
+            {/* Animated bouncing arrow pointing left toward the button */}
+            <motion.div
+              animate={{ x: [0, -8, 0] }}
+              transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+              className="text-blue-400 text-xl select-none"
+            >
+              👈
+            </motion.div>
+            {/* Tooltip bubble */}
+            <div className="relative bg-slate-800 border border-blue-500/50 text-white text-xs px-3 py-2 rounded-xl shadow-lg max-w-[140px] leading-snug">
+              <span className="text-blue-400 font-semibold">Ask me anything!</span>
+              <br />
+              <span className="text-slate-300">Chat with Himanshu's AI bot</span>
+              {/* Close X */}
+              <button
+                onClick={dismissHint}
+                className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-[10px] leading-none"
+              >
+                ×
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Draggable Avatar Button */}
       <motion.div
         drag
@@ -225,9 +269,18 @@ function ChatBot() {
         whileTap={{ scale: 0.95 }}
       >
         <motion.button
-          onClick={() => !isDragging && setIsOpen(true)}
+          onClick={() => {
+            if (!isDragging) {
+              setIsOpen(true);
+              dismissHint();
+            }
+          }}
           className="relative md:w-14 md:h-14 w-12 h-12 rounded-full bg-blue-500 shadow-lg flex items-center justify-center text-white overflow-hidden group"
         >
+          {/* Pulse ring shown while hint is visible */}
+          {showHint && (
+            <span className="absolute inset-0 rounded-full animate-ping bg-blue-400 opacity-50" />
+          )}
           <MessageCircle className="w-4 h-4 md:w-6 md:h-6 relative z-10" />
         </motion.button>
       </motion.div>

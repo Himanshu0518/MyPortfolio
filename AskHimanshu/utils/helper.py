@@ -1,4 +1,6 @@
 work_experience = {
+   {
+    "id":1,
     "position": "AI/ML Developer Intern",
     "company": "Taiyari24",
     "location": "Remote",
@@ -9,6 +11,19 @@ work_experience = {
         "Worked across front-end and back-end technologies, integrating AI features into applications",
         "Participated in code reviews, improving software quality and adhering to best practices",       
     ]
+    },
+    {
+    "id":2,
+    "position": "Software Development Intern",
+    "company": "Mindtrot Solutions",
+    "location": "Remote",
+    "duration": "Feb 2026 – Apr 2026",
+    "tech-stack":"node.js,react.js,express.js,mongodb,firebase",
+    "responsibilities": [
+       "Built real-time analytics dashboards with KPI summaries using React, TypeScript, and Ant Design for CarePilot, ahealthtech SaaS serving home healthcare and assisted-living providers",
+        "Developed a Lead Assessment module with a mandatory multi-step intake form, reducing data-entry errors before lead-to-patient conversion "  
+    ]
+    }
 }
 
 achievements = [

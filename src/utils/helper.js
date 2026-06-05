@@ -1,4 +1,4 @@
-import { SiLeetcode,SiCodechef } from "react-icons/si";
+import { SiLeetcode, SiCodechef } from "react-icons/si";
 import {
   FaDiagramProject,
   FaEnvelope,
@@ -11,9 +11,8 @@ import {
   FaBriefcase,
 } from "react-icons/fa6";
 import {
- InterviewBot,
+  InterviewBot,
   CodeCraft,
-  Aggroassist,
   eShop,
   Vehicle,
   AccentRecognition
@@ -22,7 +21,7 @@ import {
 export const Socials = [
   {
     id: `leetcode-${Date.now()}`,
-    Icon: SiLeetcode ,
+    Icon: SiLeetcode,
     uri: "https://leetcode.com/u/hs_ss/",
     color: "#1877F2",
   },
@@ -77,15 +76,15 @@ export const Menus = [
     uri: "#projects",
     name: "Projects",
   },
- 
+
   {
-    id:`blogs-${Date.now()}`,
+    id: `blogs-${Date.now()}`,
     Icon: FaCode,
     uri: "#blogs",
     name: "Blogs",
   },
-  
-   {
+
+  {
     id: `contact-${Date.now()}`,
     Icon: FaEnvelope,
     uri: "#contact",
@@ -98,13 +97,12 @@ export const ExperienceData = [
     id: `mindtrot-${Date.now()}`,
     company: "Mindtrot",
     position: "Software Engineer Intern",
-    duration: "Dec 2025 - Present",
+    duration: "Dec 2025 - Apr 2026",
     location: "Remote",
     type: "Internship",
     description: [
-      "Working with modern web technologies to build scalable applications",
-      "Implementing responsive UI components using React.js and Ant Design",
-      "Collaborating with cross-functional teams on product development"
+      "Built real-time analytics dashboards with KPI summaries using React, TypeScript, and Ant Design for CarePilot, ahealthtech SaaS serving home healthcare and assisted-living providers",
+      "Developed a Lead Assessment module with a mandatory multi-step intake form, reducing data-entry errors before lead-to-patient conversion "
     ],
     skills: ["React.js", "Ant Design", "TypeScript"],
     current: true
@@ -121,13 +119,13 @@ export const ExperienceData = [
       "Developed and tested backend systems using Node.js and integrated REST APIs with the frontend using Axios",
       "Handled state management and collaborated on building responsive, scalable web applications"
     ],
-    skills: ["React.js", "Express.js", "MongoDB","Firebase"],
+    skills: ["React.js", "Express.js", "MongoDB", "Firebase"],
     current: false
   }
 ];
 
 export const ProjectsData = [
-    {
+  {
     id: `eShop-${Date.now()}`,
     name: "eShop",
     imgSrc: eShop,
@@ -165,13 +163,13 @@ export const ProjectsData = [
       "ML model for accent recognition using Librosa and scikit-learn. End to End MLOPS pipeline."
   },
   {
-    id: `Aggroassist-${Date.now()}`,
-    name: "AgroAssist",
-    imgSrc: Aggroassist,
-    gitURL: "https://github.com/Himanshu0518/Agroassist.git",
-    demo: "https://youtu.be/CQRa5K5qehQ",
+    id: `ComplianceQAPipeline-${Date.now()}`,
+    name: "ComplianceQA Pipeline",
+    imgSrc: "https://opengraph.githubassets.com/88beba2e43b262403a961b808bba93687068f503c4519757a53b546885656e95/Himanshu0518/ComplianceQAPipeline",
+    gitURL: "https://github.com/Himanshu0518/ComplianceQAPipeline",
+    demo: "",
     description:
-      "Build with ML + CNN + TSA. Discovered a different way to recommend crops."
+      "Automated compliance Q&A pipeline leveraging LLMs and RAG to extract, reason over, and answer regulatory queries from documents."
   },
   {
     id: `VehicleInsurancePrediction-${Date.now()}`,
